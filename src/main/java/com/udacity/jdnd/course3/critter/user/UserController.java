@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,12 +84,28 @@ public class UserController {
     private static CustomerDTO convertCustomerEntityToDTO(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
+        if (null != customer.getPets()) {
+            List<Long> petIds = new ArrayList<>();
+            customer.getPets().forEach((pet) -> {
+                petIds.add(pet.getId());
+            });
+            customerDTO.setPetIds(petIds);
+        }
         return customerDTO;
     }
 
     private static Customer convertCustomerDTOToEntity(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
+        if (null != customerDTO.getPetIds()) {
+            List<Pet> pets = new ArrayList<>();
+            customerDTO.getPetIds().forEach((id) -> {
+                Pet pet = new Pet();
+                pet.setId(id);
+                pets.add(pet);
+            });
+            customer.setPets(pets);
+        }
         return customer;
     }
 

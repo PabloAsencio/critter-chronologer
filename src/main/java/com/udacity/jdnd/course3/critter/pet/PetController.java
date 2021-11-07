@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.user.CustomerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,33 @@ import java.util.List;
 public class PetController {
 
     private final PetService petService;
+    private final CustomerService customerService;
 
-    public PetController(PetService petService) {
+    public PetController(PetService petService, CustomerService customerService) {
         this.petService = petService;
+        this.customerService = customerService;
     }
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Pet pet = convertPetDTOToEntity(petDTO);
-        return convertPetEntityToDTO(petService.savePet(pet));
+        // The following is necessary to make sure the relation between the pet
+        // and the owner is persisted correctly when the API methods are called programmatically
+        // when running the tests.
+        // This doesn't seem to be necessary when the API is accessed via an HTTP connection.
+        // See https://knowledge.udacity.com/questions/356184
+        Customer customer = customerService.getCustomerById(petDTO.getOwnerId());
+        pet.setOwner(customer);
+        Pet savedPet = petService.savePet(pet);
+        if (null != customer.getPets()) {
+            customer.getPets().add(savedPet);
+        } else {
+            List<Pet> pets = new ArrayList<>();
+            pets.add(savedPet);
+            customer.setPets(pets);
+        }
+
+        return convertPetEntityToDTO(savedPet);
     }
 
     @GetMapping("/{petId}")
