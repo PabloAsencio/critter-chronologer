@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends CrudRepository<Schedule, Long> {
 
-    List<Schedule> findSchedulesByPetsIds(Long petId);
+    List<Schedule> findSchedulesByPetsId(Long petId);
 
     List<Schedule> findSchedulesByEmployeesId(Long employeeId);
 

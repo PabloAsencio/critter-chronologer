@@ -28,7 +28,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getSchedulesForPet(Long petId) {
-        return scheduleRepository.findSchedulesByPetsIds(petId);
+        return scheduleRepository.findSchedulesByPetsId(petId);
     }
 
     public List<Schedule> getScheduleForEmployee(Long employeeId) {

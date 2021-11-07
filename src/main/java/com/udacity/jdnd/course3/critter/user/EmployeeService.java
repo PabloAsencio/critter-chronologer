@@ -33,6 +33,6 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployeesForService(DayOfWeek day, Collection<EmployeeSkill> skills) {
-        return employeeRepository.findEmployeesByDaysAvailableContainsAndSkills(day, skills);
+        return employeeRepository.findEmployeesByDaysAvailableContainsAndSkillsIn(day, skills);
     }
 }
