@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +34,10 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployeesForService(DayOfWeek day, Collection<EmployeeSkill> skills) {
-        return employeeRepository.findEmployeesByDaysAvailableContainsAndSkillsIn(day, skills);
+        final List<Employee> employees = employeeRepository.findEmployeesByDaysAvailableContainsAndSkillsIn(day, skills);
+        final List<Employee> filteredEmployees = employees.stream().filter((employee) -> {
+           return employee.getSkills().containsAll(skills);
+        }).collect(Collectors.toList());
+        return filteredEmployees;
     }
 }

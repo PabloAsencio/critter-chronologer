@@ -15,10 +15,10 @@ public class Schedule {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Employee> employees;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Pet> pets;
 
     private LocalDate date;
