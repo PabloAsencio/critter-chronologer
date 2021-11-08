@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
-    List<Employee> findEmployeesByDaysAvailableContainsAndSkills(DayOfWeek dayOfWeek, Collection<EmployeeSkill> skills);
+    List<Employee> findEmployeesByDaysAvailableContainsAndSkillsIn(DayOfWeek dayOfWeek, Collection<EmployeeSkill> skills);
 }

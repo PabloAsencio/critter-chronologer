@@ -22,6 +22,10 @@ public class CustomerService {
         return customers;
     }
 
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
     public Customer getOwnerByPet(Long petId) {
         return customerRepository.findCustomerByPetsId(petId);
     }

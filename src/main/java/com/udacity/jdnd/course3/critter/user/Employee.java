@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.schedule.Schedule;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.List;
@@ -19,6 +21,9 @@ public class Employee extends User {
     @CollectionTable(name = "employee_day")
     @Column(name = "day")
     private List<DayOfWeek> daysAvailable;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Schedule> schedules;
 
     public Employee() {
 
@@ -55,5 +60,13 @@ public class Employee extends User {
 
     public void setDaysAvailable(List<DayOfWeek> daysAvailable) {
         this.daysAvailable = daysAvailable;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }
